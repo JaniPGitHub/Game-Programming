@@ -8,12 +8,12 @@ namespace AD1701
         private Inventory inventory; // reference Invetory component attached on same GameObject
                                      // allows PlayerInvetory class to interact with inventory system
 
-        void Awake()
+        private void Awake()
         {
             inventory = GetComponent<Inventory>();
         }
 
-        void OnEnable()
+        private void OnEnable()
         {
             if (inventory != null)
             {
@@ -21,7 +21,7 @@ namespace AD1701
             }
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             if (inventory != null)
             {
