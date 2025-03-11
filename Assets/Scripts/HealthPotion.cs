@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class HealthPotion : Potion
+namespace AD1701
 {
-    public HealthPotion() : base("HealthPotion") { }
-
-    public override void GetHealth()
+    public class HealthPotion : Potion
     {
-        Debug.Log($"{Name} Healing");
-    }
+        public HealthPotion() : base("HealthPotion") { }
+
+        public override void GetHealth()
+        {
+            Debug.Log($"{Name} Healing");
+        }
+    } 
 }
