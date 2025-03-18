@@ -23,5 +23,16 @@ namespace AD1701
         Explosive,
         Scifi
     }
-        
+
+    public enum DamageTypes
+    {
+        Electric,
+        Fire,
+        Ice,
+        Earth,
+        Air,
+        Scifi,
+        Darkness,
+        Light
+    }
 }
