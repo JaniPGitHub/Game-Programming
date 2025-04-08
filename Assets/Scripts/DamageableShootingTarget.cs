@@ -28,7 +28,7 @@ namespace AD1701
             if (!colorSwapped)
             {
                 // Set the swapColor to a random value when it is swapped
-                swapColor = new Color(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f), Random.Range(0.5f, 1f));  // Prevent dark colors
+                swapColor = new Color(Random.Range(0.3f, 0.8f), Random.Range(0.3f, 0.8f), Random.Range(0.3f, 0.8f));  // Prevent dark colors
                 objectRenderer.material.color = swapColor;
             }
             else
