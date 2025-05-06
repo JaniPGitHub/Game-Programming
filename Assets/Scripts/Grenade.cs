@@ -4,51 +4,87 @@ using UnityEngine;
 
 namespace AD1701
 {
+    // Basic grenade that can be thrown and explodes
     public class Grenade : Weapon, IThrowable
     {
-        public float damage = 40f;
+        [Header("Grenade Settings")]
+        public float explosionRadius = 5f;
+        public float explosionForce = 500f;
+        public GameObject explosionEffect;
+        public LayerMask damageableLayers;
 
-        // TODO make your own areadamage!!!!!
+        private Rigidbody rb;
 
-        //public DamageArea = AreaOfDamage;
-        //
-        //public class DamageArea : MonoBehaviour
-        //{
-        //    public float AreaOfEffectDistance = 5f;
-        //}
-        //
-        //void OnHit(Vector3 point, Vector3 normal, Collider collider)
-        //{
-        //    // damage
-        //    if (AreaOfDamage)
-        //    {
-        //        // area damage
-        //        AreaOfDamage.InflictDamageInArea(Damage, point, HittableLayers, k_TriggerInteraction,
-        //            m_ProjectileBase.Owner);
-        //    }
-        //    else
-        //    {
-        //        // point damage
-        //        Damageable damageable = collider.GetComponent<Damageable>();
-        //        if (damageable)
-        //        {
-        //            damageable.InflictDamage(Damage, false, m_ProjectileBase.Owner);
-        //        }
-        //    } 
-        //}
-            public override void Attack()
+        private void Awake()
         {
-            throw new System.NotImplementedException();
+            rb = GetComponent<Rigidbody>();
+        }
+
+        public override void Attack()
+        {
+            Throw();
+        }
+
+        public void Throw()
+        {
+            // Launches grenade forward
+            rb.AddForce(transform.forward * 10f, ForceMode.VelocityChange);
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            Explode();
+        }
+
+        // Handles explosion logic and effects
+        protected virtual void Explode()
+        {
+            if (explosionEffect != null)
+                Instantiate(explosionEffect, transform.position, Quaternion.identity);
+
+            Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, damageableLayers);
+
+            foreach (Collider nearbyObject in colliders)
+            {
+                Damageable dmg = nearbyObject.GetComponent<Damageable>();
+                if (dmg != null)
+                {
+                    dmg.InflictDamage(Damage, true, gameObject);
+                }
+
+                Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+                }
+            }
+
+            Destroy(gameObject);
         }
 
         public override void Equip()
         {
-            throw new System.NotImplementedException();
+            gameObject.SetActive(true);
+            rb.isKinematic = true;
+            rb.useGravity = false;
+
+            Collider col = GetComponent<Collider>();
+            if (col != null)
+                col.enabled = false;
+
+            Debug.Log($"{weaponName} equipped.");
         }
 
         public override void Unequip()
         {
-            throw new System.NotImplementedException();
+            rb.isKinematic = false;
+            rb.useGravity = true;
+
+            Collider col = GetComponent<Collider>();
+            if (col != null)
+                col.enabled = true;
+
+            Debug.Log($"{weaponName} unequipped.");
         }
     }
 }

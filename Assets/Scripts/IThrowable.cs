@@ -4,9 +4,7 @@ namespace AD1701
 {
     public interface IThrowable
     {
-        void Throw()
-        {
+        void Throw(); // Interface method for throwing objects
 
-        }
-    } 
+    }
 }
