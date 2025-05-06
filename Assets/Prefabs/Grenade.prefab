@@ -154,7 +154,8 @@ MonoBehaviour:
   weaponTypes: 2
   explosionRadius: 5
   explosionForce: 500
-  explosionEffect: {fileID: 0}
+  explosionEffect: {fileID: 8950624839484268180, guid: 45ce85b82008be84287f2c7e5bf07647,
+    type: 3}
   damageableLayers:
     serializedVersion: 2
     m_Bits: 1
